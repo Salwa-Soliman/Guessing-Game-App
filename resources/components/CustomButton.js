@@ -17,9 +17,10 @@ export default function CustomButton({children, onPress, gameScreen}) {
         <Text
           color={Colors.textColor}
           textAlign="center"
-          fontSize={gameScreen ? 30 : 16}
-          p={gameScreen ? 2 : Spacing.btnPadding}
-          fontWeight={gameScreen ? '900' : '500'}>
+          fontSize={18}
+          py={Spacing.btnPadding}
+          px={Spacing.btnPadding * 2}
+          fontWeight={'500'}>
           {children}
         </Text>
       </Pressable>

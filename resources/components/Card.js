@@ -10,6 +10,7 @@ export default function Card({children}) {
       padding={Spacing.screenPadding}
       bg={Colors.primary700}
       w="100%"
+      maxW={430}
       my={Spacing.elementMargin}
       borderRadius="xl">
       {children}

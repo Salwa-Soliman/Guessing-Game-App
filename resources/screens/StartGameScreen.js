@@ -1,6 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {Input, HStack, Center, View} from 'native-base';
+import {
+  Input,
+  HStack,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'native-base';
 import CustomButton from './../components/CustomButton';
 import {Colors} from '../constants/Colors';
 import {Spacing} from '../constants/Spacing';
@@ -14,39 +20,43 @@ export default function StartGameScreen({onPicked}) {
   const _onChangeTextHandler = number => setEnteredNumber(number);
 
   return (
-    <MainScreen>
-      <Title text="Guess My Number" />
-      <Card>
-        <CardHeader>Enter a Number</CardHeader>
-        <Input
-          variant={'underlined'}
-          keyboardType="number-pad"
-          borderBottomColor={Colors.secondary500}
-          color={Colors.secondary500}
-          textAlign={'center'}
-          w="50"
-          fontSize="25"
-          fontWeight="600"
-          maxLength={2}
-          // placeholder="00"
-          // placeholderTextColor={'#77777780'}
-          onChangeText={_onChangeTextHandler}
-          value={enteredNumber}
-        />
-        {/* Buttons  */}
-        <HStack
-          w="100%"
-          justifyContent="space-between"
-          my={Spacing.elementMargin}>
-          <View flex="1" mx="2">
-            <CustomButton onPress={resetInput}>Reset</CustomButton>
-          </View>
-          <View flex="1" mx="2">
-            <CustomButton onPress={startGame}>Start</CustomButton>
-          </View>
-        </HStack>
-      </Card>
-    </MainScreen>
+    <ScrollView flex="1">
+      <KeyboardAvoidingView flex="1" behavior="position">
+        <MainScreen>
+          <Title text="Guess My Number" />
+          <Card>
+            <CardHeader>Enter a Number</CardHeader>
+            <Input
+              variant={'underlined'}
+              keyboardType="number-pad"
+              borderBottomColor={Colors.secondary500}
+              color={Colors.secondary500}
+              textAlign={'center'}
+              w="50"
+              fontSize="25"
+              fontWeight="600"
+              maxLength={2}
+              // placeholder="00"
+              // placeholderTextColor={'#77777780'}
+              onChangeText={_onChangeTextHandler}
+              value={enteredNumber}
+            />
+            {/* Buttons  */}
+            <HStack
+              w="100%"
+              justifyContent="space-between"
+              my={Spacing.elementMargin}>
+              <View flex="1" mx="2">
+                <CustomButton onPress={resetInput}>Reset</CustomButton>
+              </View>
+              <View flex="1" mx="2">
+                <CustomButton onPress={startGame}>Start</CustomButton>
+              </View>
+            </HStack>
+          </Card>
+        </MainScreen>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 
   function startGame() {

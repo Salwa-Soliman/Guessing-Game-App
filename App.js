@@ -9,7 +9,7 @@
 
 import React, {useState} from 'react';
 import {ImageBackground} from 'react-native';
-import {Box, NativeBaseProvider} from 'native-base';
+import {Box, NativeBaseProvider, StatusBar} from 'native-base';
 import {Colors} from './resources/constants/Colors';
 import {Spacing} from './resources/constants/Spacing';
 
@@ -62,6 +62,7 @@ export default function App() {
   }
   return (
     <NativeBaseProvider>
+      <StatusBar backgroundColor={Colors.primary600 + 'd7'} />
       <LinearGradient
         colors={[Colors.primary600, Colors.secondary500]}
         style={{flex: 1}}>
@@ -71,7 +72,6 @@ export default function App() {
           resizeMode="cover"
           imageStyle={{opacity: 0.25}}>
           <Box safeArea px={Spacing.screenPadding} flex="1">
-            {/* <StartGameScreen /> */}
             {renderedScreen}
           </Box>
         </ImageBackground>

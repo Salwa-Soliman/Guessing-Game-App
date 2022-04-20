@@ -2,60 +2,85 @@
 
 import React, {useState, useEffect} from 'react';
 import {Alert} from 'react-native';
-import {HStack, View, Text, FlatList} from 'native-base';
+import {HStack, View, FlatList} from 'native-base';
 import Title from '../components/Title';
 import NumberContainer from '../components/NumberContainer';
 import CustomButton from '../components/CustomButton';
-import {Spacing} from './../constants/Spacing';
 import Card from '../components/Card';
 import CardHeader from '../components/CardHeader';
 import MainScreen from './../components/MainScreen';
-import {Colors} from './../constants/Colors';
+import GuessItem from '../components/GuessItem';
+import {useWindowDimensions} from 'react-native';
+
 export default function GameScreen({chosenNumber, onGameOver, onNewGuess}) {
   const [boundaries, setBoundaries] = useState({max: 100, min: 1});
   const initialGuess = generateRandomNumberBetween(1, 100, chosenNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [guessingArr, setGuessingArr] = useState([]);
-
+  const {width, height} = useWindowDimensions();
   useEffect(() => {
     if (chosenNumber === currentGuess) {
       onGameOver();
     }
     return onNewGuess(guessingArr.length);
   }, [chosenNumber, currentGuess, onGameOver, onNewGuess, guessingArr]);
+  const landscapeUI = (
+    <>
+      <CardHeader landscape>Lower or Higher?</CardHeader>
+
+      {/* <Card> */}
+      <HStack
+        w="80%"
+        justifyContent={'space-between'}
+        mb={3}
+        alignItems={'center'}>
+        <CustomButton onPress={nextGuessHandler.bind(this, 'lower')} gameScreen>
+          Lower
+        </CustomButton>
+        <NumberContainer landScape>{currentGuess}</NumberContainer>
+        <CustomButton
+          onPress={nextGuessHandler.bind(this, 'higher')}
+          gameScreen>
+          Higher
+        </CustomButton>
+      </HStack>
+      {/* </Card> */}
+    </>
+  );
   return (
     <MainScreen>
       <Title text="Openent's Guess" />
-      <NumberContainer>{currentGuess}</NumberContainer>
-      <Card>
-        <CardHeader>Lower or Higher?</CardHeader>
-        <HStack w="80%" justifyContent={'space-between'} my={3}>
-          <CustomButton
-            onPress={nextGuessHandler.bind(this, 'lower')}
-            gameScreen>
-            -
-          </CustomButton>
-          <CustomButton
-            onPress={nextGuessHandler.bind(this, 'higher')}
-            gameScreen>
-            +
-          </CustomButton>
-        </HStack>
-      </Card>
+      {width > height ? (
+        landscapeUI
+      ) : (
+        <>
+          <NumberContainer>{currentGuess}</NumberContainer>
+
+          <Card>
+            <CardHeader>Lower or Higher?</CardHeader>
+            <HStack w="80%" justifyContent={'space-between'} my={3}>
+              <CustomButton
+                onPress={nextGuessHandler.bind(this, 'lower')}
+                gameScreen>
+                Lower
+              </CustomButton>
+              <CustomButton
+                onPress={nextGuessHandler.bind(this, 'higher')}
+                gameScreen>
+                Higher
+              </CustomButton>
+            </HStack>
+          </Card>
+        </>
+      )}
       <View flex="1">
         <FlatList
           data={guessingArr}
           renderItem={itemData => (
-            <View
-              bg={Colors.primary400 + '80'}
-              p={3}
-              borderRadius="xl"
-              mb={Spacing.elementMargin / 2}>
-              <Text color="#fff" fontSize={20}>
-                #{guessingArr.length - itemData.index} Guessed Number is{' '}
-                {itemData.item}
-              </Text>
-            </View>
+            <GuessItem
+              index={guessingArr.length - itemData.index}
+              guessedNumber={itemData.item}
+            />
           )}
         />
       </View>

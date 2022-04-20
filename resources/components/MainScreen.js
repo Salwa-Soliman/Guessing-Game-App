@@ -1,10 +1,21 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import {Center} from 'native-base';
+import {Center, ScrollView, VStack} from 'native-base';
+
 import {Spacing} from '../constants/Spacing';
-export default function MainScreen({children}) {
+import {useWindowDimensions} from 'react-native';
+export default function MainScreen({children, GameOverScreen}) {
+  const {width, height} = useWindowDimensions();
+  console.log(width, height);
   return (
-    <Center mt="10" p={Spacing.screenPadding} w="100%" flex="1">
+    <Center
+      p={Spacing.screenPadding}
+      flex={'1'}
+      style={{
+        marginTop: width > height ? 10 : 50,
+      }}>
       {children}
     </Center>
   );
